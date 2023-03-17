@@ -6,18 +6,20 @@ Automated Dockerfile to record livestreams with streamlink
 
 This is a Docker Container to record a livestream. It uses the official [Python Image](https://hub.docker.com/_/python) with the Tag *bullseye*  , installs [streamlink](https://github.com/streamlink/streamlink) and uses the Script [streamlink-recorder.sh](https://raw.githubusercontent.com/lauwarm/docker-streamlink-recorder/main/streamlink-recorder.sh) to periodically check if the stream is live.
 
+This container has added functionality to turn off ads if the Twitch ID used to record the VODs are subscribed to the channel or has Twitch Turbo to skip ads.
+
 ## Usage
 
 To run the Container:
 
 ```bash
-docker run -v /path/to/vod/folder/:/home/download -e streamLink='' -e streamQuality='' -e streamName='' -e streamOptions='' -e uid='' -e gid='' lauwarm/streamlink-recorder
+docker run -v /path/to/vod/folder/:/home/download -e streamLink='' -e streamQuality='' -e streamName='' -e streamOptions='' -e clientId='' -e clientSecret='' -e uid='' -e gid='' lauwarm/streamlink-recorder
 ```
 
 Example:
 
 ```bash
-docker run -v /home/:/home/download -e streamLink='twitch.tv/twitch' -e streamQuality='best' -e streamName='twitch' -e streamOptions='--twitch-disable-reruns' -e uid='1001' -e gid='1001' lauwarm/streamlink-recorder
+docker run -v /home/:/home/download -e streamLink='twitch.tv/twitch' -e streamQuality='best' -e streamName='twitch' -e streamOptions='--twitch-disable-ads' -e clientId='twitch-client-id' clientSecret='twitch-client-secret' -e uid='1001' -e gid='1001' junhyunglee/streamlink-recorder
 ```
 
 ## Notes
@@ -36,8 +38,16 @@ docker run -v /home/:/home/download -e streamLink='twitch.tv/twitch' -e streamQu
 
 `streamOptions` - streamlink flags (--twitch-disable-reruns, separated by space, see [Plugins](https://streamlink.github.io/plugins.html))
 
+`clientId` - Twitch API client id from [Twitch Developer Console](https://dev.twitch.tv).
+
+`clientSecret` - Twitch API client secret generated from [Twitch Developer Console](https://dev.twitch.tv).
+
 `uid` - USER ID, map to your desired User ID (fallback to 9001)
 
 `gid` - GROUP ID, map to your desired Group ID (fallback to 9001)
 
 The File will be saved as `streamName-YearMonthDay-HourMinuteSecond.mkv`
+
+## Reference
+
+This is a forked repo from lauwarm/docker-streamlink-recorder.
