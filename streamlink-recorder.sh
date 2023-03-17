@@ -5,7 +5,7 @@
 oauth_token = ''
 
 function get_oauth_token() {
-	oauth_token = $(curl -s -X POST -H "Client-ID: $clientId" -d "client_id=$clientId&client_secret=$clientSecret&grant_type=client_credentials" https://id.twitch.tv/oauth2/token | jq -r '.access_token')
+	$oauth_token = $(curl -s -X POST -H "Client-ID: $clientId" -d "client_id=$clientId&client_secret=$clientSecret&grant_type=client_credentials" https://id.twitch.tv/oauth2/token | jq -r '.access_token')
 }
 
 function validate_oauth_token() {
